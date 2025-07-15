@@ -113,10 +113,15 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text('Input:  $input'),
                           const SizedBox(height: 4),
-                          ...parsed.map((w) => Text(
-                                'text: "${w.text}"${w.furigana != null ? ', furigana: "${w.furigana}"' : ''}',
-                                style: const TextStyle(fontSize: 14, color: Colors.black87),
-                              )),
+                          ...parsed.map(
+                            (w) => Text(
+                              'text: "${w.text}"${w.furigana != null ? ', furigana: "${w.furigana}"' : ''}',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
                         ],
                       );
                     },

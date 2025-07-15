@@ -1,4 +1,3 @@
-
 library;
 
 export 'models/furigana_word.dart';

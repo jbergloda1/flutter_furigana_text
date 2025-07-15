@@ -9,9 +9,13 @@ class FuriganaParser {
 
     for (final match in matches) {
       if (match.start > currentIndex) {
-        results.add(FuriganaWord(text: input.substring(currentIndex, match.start)));
+        results.add(
+          FuriganaWord(text: input.substring(currentIndex, match.start)),
+        );
       }
-      results.add(FuriganaWord(text: match.group(1)!, furigana: match.group(2)!));
+      results.add(
+        FuriganaWord(text: match.group(1)!, furigana: match.group(2)!),
+      );
       currentIndex = match.end;
     }
     if (currentIndex < input.length) {
