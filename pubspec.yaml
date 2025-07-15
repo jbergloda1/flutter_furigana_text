@@ -1,6 +1,6 @@
 name: flutter_furigana_text
 description: "A Flutter package for displaying Japanese text with furigana (ruby text) annotations. Perfect for Japanese learning apps, dictionaries, and reading practice."
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/jbergloda1/flutter_furigana_text
 repository: https://github.com/jbergloda1/flutter_furigana_text
 issue_tracker: https://github.com/jbergloda1/flutter_furigana_text/issues
@@ -12,6 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  html: ^0.15.4
 
 dev_dependencies:
   flutter_test:

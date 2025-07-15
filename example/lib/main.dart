@@ -100,20 +100,34 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Parser demo (FuriganaParser.parseFromBrackets):',
+                    'Parser demo (FuriganaParser.parseFromBrackets) and (FuriganaHtmlParser.parse)',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Builder(
                     builder: (context) {
                       final input = '漢字[かんじ]を勉強[べんきょう]します。';
+                      final inputHtml = '今日は<ruby>漢字<rt>かんじ</rt></ruby>を勉強します。';
                       final parsed = FuriganaParser.parseFromBrackets(input);
+                      final parsedHtml = FuriganaHtmlParser.parse(inputHtml);
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Input:  $input'),
                           const SizedBox(height: 4),
                           ...parsed.map(
+                            (w) => Text(
+                              'text: "${w.text}"${w.furigana != null ? ', furigana: "${w.furigana}"' : ''}',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text('Input:  $inputHtml'),
+                          const SizedBox(height: 4),
+                          ...parsedHtml.map(
                             (w) => Text(
                               'text: "${w.text}"${w.furigana != null ? ', furigana: "${w.furigana}"' : ''}',
                               style: const TextStyle(

@@ -11,6 +11,7 @@ A Flutter widget to render Japanese text with Furigana (ruby characters), suppor
 * **Custom Styling**: Easily customize the style for both main text and furigana.
 * **Highlighting**: Built-in support for highlighting specific words.
 * **Bracket Parser**: Parse strings in the format `漢字[かんじ]` into a list of FuriganaWord/FuriganaChar.
+* **HTML Parser**: Parse HTML strings with <ruby> and <rt> tags (e.g. `今日は<ruby>漢字<rt>かんじ</rt></ruby>を勉強します。`) into a list of FuriganaWord/FuriganaChar.
 
 ## 🚀 Installation
 
@@ -57,4 +58,7 @@ FuriganaText(
 final input = '漢字[かんじ]を勉強[べんきょう]します。';
 final parsed = FuriganaParser.parseFromBrackets(input);
 // `parsed` will be a List<FuriganaWord> with corresponding text and furigana
+// Parse from html input
+final htmlInput = '今日は<ruby>漢字<rt>かんじ</rt></ruby>を勉強します。';
+final parsed = FuriganaHtmlParser.parse(htmlInput);
 ```
