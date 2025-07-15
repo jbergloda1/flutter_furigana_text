@@ -1,9 +1,7 @@
 // Import necessary libraries
 import 'package:flutter/material.dart';
+import 'package:flutter_furigana_text/flutter_furigana_renderer.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-// Import your package
-import 'package:flutter_furigana_text/flutter_furigana_text.dart';
 
 void main() {
   // Group tests for FuriganaText widget

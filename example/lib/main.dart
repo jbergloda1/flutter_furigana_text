@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_furigana_text/flutter_furigana_text.dart';
+import 'package:flutter_furigana_text/flutter_furigana_renderer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -87,6 +87,42 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: FuriganaText(spans: _sentence, onSpanTap: _handleTap),
+            ),
+            const SizedBox(height: 40),
+            // Demo parser FuriganaParser
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.green.shade300),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Parser demo (FuriganaParser.parseFromBrackets):',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Builder(
+                    builder: (context) {
+                      final input = '漢字[かんじ]を勉強[べんきょう]します。';
+                      final parsed = FuriganaParser.parseFromBrackets(input);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Input:  $input'),
+                          const SizedBox(height: 4),
+                          ...parsed.map((w) => Text(
+                                'text: "${w.text}"${w.furigana != null ? ', furigana: "${w.furigana}"' : ''}',
+                                style: const TextStyle(fontSize: 14, color: Colors.black87),
+                              )),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 40),
             Container(
