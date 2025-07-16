@@ -10,3 +10,7 @@
 ## 0.0.3
 
 * Added FuriganaHtmlParser: Support for parsing HTML strings with <ruby> and <rt> tags (e.g. `今日は<ruby>漢字<rt>かんじ</rt></ruby>を勉強します。`) into a list of FuriganaWord/FuriganaChar. 
+
+## 0.0.4
+
+* Added furigana-aware search & highlight: Search and highlight spans by Kanji, Hiragana, or Furigana (matches both main text and furigana). 

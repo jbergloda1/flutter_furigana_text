@@ -28,6 +28,27 @@ class FuriganaChar {
     this.data,
     this.isHighlighted = false,
   });
+
+  /// Highlights spans where [query] matches text or furigana (case-insensitive, supports Hiragana/Katakana/Romaji if needed)
+  static List<FuriganaChar> highlightByQuery(
+    List<FuriganaChar> spans,
+    String query,
+  ) {
+    if (query.trim().isEmpty) return spans;
+    final lowerQuery = query.trim().toLowerCase();
+    return spans.map((span) {
+      final textMatch = span.text.toLowerCase().contains(lowerQuery);
+      final furiganaMatch = (span.furigana ?? '').toLowerCase().contains(
+        lowerQuery,
+      );
+      return FuriganaChar(
+        text: span.text,
+        furigana: span.furigana,
+        data: span.data,
+        isHighlighted: textMatch || furiganaMatch,
+      );
+    }).toList();
+  }
 }
 
 //==============================================================================
@@ -78,12 +99,8 @@ class FuriganaText extends MultiChildRenderObjectWidget {
           span.text,
           style: style.copyWith(
             backgroundColor: span.isHighlighted
-                ? Colors.yellow.withValues(
-                    red: 255,
-                    green: 235,
-                    blue: 59,
-                    alpha: 179,
-                  )
+                ? Colors
+                      .yellow // Changed to vivid yellow
                 : null,
           ),
         ),
@@ -94,12 +111,8 @@ class FuriganaText extends MultiChildRenderObjectWidget {
             span.furigana!,
             style: furiganaStyle.copyWith(
               backgroundColor: span.isHighlighted
-                  ? Colors.yellow.withValues(
-                      red: 255,
-                      green: 235,
-                      blue: 59,
-                      alpha: 179,
-                    )
+                  ? Colors
+                        .yellow // Changed to vivid yellow
                   : null,
             ),
           ),

@@ -89,6 +89,27 @@ class _HomePageState extends State<HomePage> {
               child: FuriganaText(spans: _sentence, onSpanTap: _handleTap),
             ),
             const SizedBox(height: 40),
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.indigo.withValues(
+                  red: 63,
+                  green: 81,
+                  blue: 181,
+                  alpha: 25,
+                ),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(
+                _selectedMeaning,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.indigo[800],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             // Demo parser FuriganaParser
             Container(
               padding: const EdgeInsets.all(12),
@@ -144,30 +165,84 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 40),
+            // Furigana-aware search & highlight demo
             Container(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.indigo.withValues(
-                  red: 63,
-                  green: 81,
-                  blue: 181,
-                  alpha: 25,
-                ),
-                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(color: Colors.orange.shade300),
+                borderRadius: BorderRadius.circular(8),
               ),
-              child: Text(
-                _selectedMeaning,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.indigo[800],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: _FuriganaSearchDemo(sentence: _sentence),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _FuriganaSearchDemo extends StatefulWidget {
+  final List<FuriganaChar> sentence;
+
+  const _FuriganaSearchDemo({required this.sentence});
+
+  @override
+  State<_FuriganaSearchDemo> createState() => _FuriganaSearchDemoState();
+}
+
+class _FuriganaSearchDemoState extends State<_FuriganaSearchDemo> {
+  final TextEditingController _searchController = TextEditingController();
+  List<FuriganaChar> _highlightedSentence = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _highlightedSentence = List.from(widget.sentence);
+  }
+
+  void _handleSearch() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      _highlightedSentence = widget.sentence.map((char) {
+        final textLower = char.text.toLowerCase();
+        final furiganaLower = char.furigana?.toLowerCase();
+        final dataLower = char.data is String
+            ? (char.data as String).toLowerCase()
+            : null;
+
+        final isMatch =
+            textLower.contains(query) ||
+            (furiganaLower != null && furiganaLower.contains(query)) ||
+            (dataLower != null && dataLower.contains(query));
+
+        return FuriganaChar(
+          text: char.text,
+          furigana: char.furigana,
+          data: char.data,
+          isHighlighted: isMatch,
+        );
+      }).toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          controller: _searchController,
+          decoration: const InputDecoration(
+            hintText: 'Search for text or furigana',
+            prefixIcon: Icon(Icons.search),
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 16),
+        ElevatedButton(onPressed: _handleSearch, child: const Text('Search')),
+        const SizedBox(height: 16),
+        FuriganaText(spans: _highlightedSentence, onSpanTap: (_) {}),
+      ],
     );
   }
 }
